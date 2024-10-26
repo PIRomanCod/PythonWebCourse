@@ -1,0 +1,14 @@
+st.group_name, sc.lesson, ROUND(AVG(sc.score), 2) as average_grade
+
+
+GROUP BY sc.lesson, st.group_name
+ORDER BY st.group_name DESC;
+
+SELECT g.id, st.group_name, sc.lesson, st.student, l.id, t.teacher, t.id, ROUND(AVG(sc.score), 2) as average_grade
+FROM scores sc
+LEFT JOIN students st ON sc.student  = st.student 
+LEFT JOIN groups AS g ON st.group_name = g.group_name
+LEFT JOIN lessons AS l ON l.lessons_name = sc.lesson 
+LEFT JOIN teachers AS t ON t.teacher = l.teacher_id
+GROUP BY st.group_name, sc.student
+ORDER BY g.id;

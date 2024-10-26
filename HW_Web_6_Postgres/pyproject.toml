@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hw-web-6-postgres"
+version = "0.1.0"
+description = ""
+authors = ["PIRomanCod <111997187+PIRomanCod@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "hw_web_6_postgres"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+psycopg2 = "^2.9.5"
+faker = "^17.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

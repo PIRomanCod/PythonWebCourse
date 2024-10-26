@@ -1,0 +1,1 @@
+{"developer": {"name": "Alex", "species": "Python", "contacts": [380501234567, 380981234567], "status": true, "adress": [1, 2]}}

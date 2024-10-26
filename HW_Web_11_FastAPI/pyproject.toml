@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "hw-web-11-fastapi"
+version = "0.1.0"
+description = ""
+authors = ["PIRomanCod <111997187+PIRomanCod@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "hw_web_11_fastapi"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.95.0"
+uvicorn = {extras = ["standard"], version = "^0.21.1"}
+requests = "^2.28.2"
+sqlalchemy = "^2.0.7"
+psycopg2 = "^2.9.5"
+pydantic = {extras = ["email"], version = "^1.10.7"}
+alembic = "^1.10.2"
+jinja2 = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,37 @@
+{% extends "quoteapp/base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'quoteapp:author' %}">
+    {% csrf_token %}
+    <div style="padding: 10px">
+        <label> Author's fullname:
+            {{ form.fullname }}
+            <span>{{ form.errors.fullname }}</span>
+        </label>
+    </div>
+    <div style="padding: 10px">
+        <label> Author's born date:
+            {{ form.born_date }}
+            <span>{{ form.errors.born_date }}</span>
+        </label>
+    </div>
+    <div style="padding: 10px">
+        <label> Author's born location:
+            {{ form.born_location }}
+            <span>{{ form.errors.born_location }}</span>
+        </label>
+    </div>
+    <div style="padding: 10px">
+        <label> Author's bio:
+            {{ form.bio }}
+            <span>{{ form.errors.bio }}</span>
+        </label>
+    </div>
+
+    <div class="grid">
+        <button type="submit">Submit</button>
+        <button type="reset" class="secondary">Reset</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "quoteapp/base.html" %}
+{% block content %}
+
+<h1 class="row header-box" >Quotes storage</h1>
+<!--Поведінка навігації для аутентифікованого та випадкового користувача-->
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        {% if user.is_authenticated %}
+
+        <ul class="nav col-4 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="{% url 'quoteapp:main' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Home</button>
+            </a></li>
+            <li><a href="{% url 'quoteapp:tag' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Add tag</button>
+            </a></li>
+            <li><a href="{% url 'quoteapp:author' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Add Author</button>
+            </a></li>
+            <li><a href="{% url 'quoteapp:quote' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Add Quote</button>
+            </a></li>
+        </ul>
+        <ul class="nav col-4 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li>
+                <button type="button" class="btn btn-outline-primary me-2">Welcome <b>{{ user.username }}!</b></button>
+            </li>
+            <li><a href="{% url 'users:profile' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Profile</button>
+            </a></li>
+            <li><a href="{% url 'users:logout' %}">
+                <button type="button" class="btn btn-outline-primary me-2"> Logout</button>
+            </a></li>
+        </ul>
+        {% else %}
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#">
+                <button type="button" class="btn btn-outline-primary me-2">Home</button>
+            </a></li>
+            <li><a href="{% url 'users:login' %}">
+                <button type="button" class="btn btn-outline-primary me-2">Login</button>
+            </a></li>
+            <li><a href="{% url 'users:signup' %}">
+                <button type="button" class="btn btn-primary">Sign-up</button>
+            </a></li>
+        </ul>
+        {% endif %}
+
+    </header>
+</div>
+
+<!--Виведення фільтру по тегам-->
+    <form method="GET" action="">
+        <label for="tag">Tag:</label>
+        <select name="tag" id="tag">
+            <option value="">All</option>
+            {% for tag in tags %}
+                <option value="{{ tag.name }}" {% if tag.name == tag %} selected {% endif %}>{{ tag.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filter">
+    </form>
+
+<!--Блок виведення циклу з цитатами, кожна окремою карткою-->
+<ul>
+    {% for quote in page_obj %}
+    <li>
+       <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                <a href="{% url 'quoteapp:detail' quote.id %}"> {% load extract_tags %}
+                </a>
+<!--                <h4 span class="text"><b>Quote text: </b></h4>-->
+                <h5 span class="text">{{ quote.quote}}</h5>
+                    <small class="author">Author: </small>
+                    <a href="author/{{quote.author}}" class="card-link">
+                        {{quote.author }} </a>
+                    <div class="tags">Tags:
+                    {% for tag in quote.tags|tag %}
+                    <a href="tag/{{tag}}" class="btn btn-primary"> {{tag}}</a>
+
+                    {% endfor %}
+
+                </div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'quoteapp:edit_quote' quote.id %}" class="card-link">
+                    <button type="button" class="btn btn-warning">Edit</button>
+                </a>
+                <a href="{% url 'quoteapp:delete' quote.id %}">
+                    <button type="button" class="btn btn-danger">Delete quote</button>
+                </a>
+                    </div>
+                    {% endif %}
+            </div>
+
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<!--Блок навігації по пагінації-->
+   <div class="pagination">
+       <span class="step-links">
+       {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ quotes.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if quotes.number == num %}
+            <strong>{{ num }}</strong>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ quotes.next_page_number }}">Next</a>
+        <a href="?page={{ quotes.paginator.num_pages }}">Last</a>
+            </span>
+    {% endif %}
+    </div>
+
+<!--Блок топ-10 тегів-->
+<div class="container">
+    <h1>Top 10 Tags</h1>
+    <hr>
+    <div class="row">
+        {% for tag in tags|toptags %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tag.name }}</h5>
+                    <p class="card-text">{{ tag.quote_set.count }} quotes</p>
+                    <a href="tag/{{tag}}" class="btn btn-primary">View quotes</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

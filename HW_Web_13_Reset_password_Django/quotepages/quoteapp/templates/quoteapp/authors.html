@@ -1,0 +1,28 @@
+{% extends "quoteapp/base.html" %}
+{% block content %}
+{% load extract_tags %}
+
+<h1>Quote related with author: {{author_id}}</h1>
+<div class="row col-md-12 mb-4">
+    <p class="card-text"><b> Author's bio:</b> {{author.bio}}</p>
+    <p class="card-text"><b> Author's born date:</b> {{author.born_date}}</p>
+    <p class="card-text"><b> Author's born location:</b> {{author.born_location}}</p>
+</div>
+{% for quote in quotes %}
+
+<div class="col-md-12 mb-4">
+    <div class="card col-md-12 mb-4">
+        <div>
+            <p class="card-text col-md-12 mb-4"><b>Text:</b> {{quote.quote}}</p>
+            <p class="card-text col-md-8 mb-4"><b>Author:</b> {{ quote.author }} </p>
+
+            {% for tag in quote.tags|tag %}
+            <h6 class="btn btn-primary">{{tag}}</h6>
+
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

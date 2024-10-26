@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for quote in quotes %}
+        <div class="quote">
+            <h2><a href="{% url 'quote_detail' quote.id %}">{{ quote.author }}</a></h2>
+            <p>{{ quote.text }}</p>
+            {% if quote.tags.all %}
+                <p>Tags:
+                {% for tag in quote.tags.all %}
+                    <a href="{% url 'quote_list_by_tag' tag.slug %}">{{ tag }}</a>
+                {% endfor %}
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% if quotes.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ quotes.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in quotes.paginator.page_range %}
+        {% if quotes.number == num %}
+            <strong>{{ num }}</strong>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if quotes.has_next %}
+        <a href="?page={{ quotes.next_page_number }}">Next</a>
+        <a href="?page={{ quotes.paginator.num_pages }}">Last</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+#1
+sql = """
+SELECT student, ROUND(AVG(score), 2) as grade
+FROM scores 
+GROUP BY student
+ORDER BY grade DESC
+LIMIT 5
+"""
+
+#2
+sql = """
+SELECT lesson, student, MAX(score) as grade
+FROM scores 
+GROUP BY lesson
+ORDER BY grade DESC
+"""
+
+#3
+sql = """
+SELECT st.group_name, sc.lesson, ROUND(AVG(sc.score), 2) as average_grade
+FROM scores sc
+LEFT JOIN students st ON sc.student  = st.student  
+GROUP BY sc.lesson, st.group_name
+ORDER BY st.group_name;
+"""
+
+#4
+sql = """
+SELECT ROUND(AVG(score), 2)
+FROM scores 
+"""
+
+#5
+sql = """
+SELECT teacher_id, lessons_name
+FROM lessons 
+ORDER BY teacher_id
+"""
+
+#6
+sql = """
+SELECT s.student, s.group_name
+FROM students AS s
+LEFT JOIN groups AS g ON s.group_name = g.group_name
+WHERE g.id = 2;
+"""
+
+#7
+sql = """
+SELECT st.group_name, sc.lesson, st.student, score
+FROM scores sc
+LEFT JOIN students st ON sc.student  = st.student 
+LEFT JOIN groups AS g ON st.group_name = g.group_name
+LEFT JOIN lessons AS l ON l.lessons_name = sc.lesson 
+WHERE g.id = 2 and l.id = 4;
+"""
+
+#8
+sql = """
+SELECT t.teacher, sc.lesson,  ROUND(AVG(sc.score), 2) as average_grade
+FROM scores sc
+LEFT JOIN lessons AS l ON l.lessons_name = sc.lesson 
+LEFT JOIN teachers AS t ON t.teacher = l.teacher_id
+GROUP BY l.lessons_name
+ORDER BY t.id;
+"""
+
+#9
+sql = """
+SELECT sc.lesson 
+FROM scores sc
+LEFT JOIN lessons l ON l.lessons_name = sc.lesson 
+GROUP BY l.id;
+"""
+
+#10
+sql = """
+SELECT sc.student, l.lessons_name, t.teacher
+FROM scores sc
+LEFT JOIN lessons l ON l.lessons_name = sc.lesson
+LEFT JOIN students s  ON s.student = sc.student
+LEFT JOIN teachers t ON t.teacher = l.teacher_id 
+WHERE  s.id = 30 and t.id = 2;
+"""

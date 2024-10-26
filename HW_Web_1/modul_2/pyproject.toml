@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "assistant-bot"
+version = "0.1.0"
+description = "Personal assistant"
+authors = ["Roman Pimonov <111997187+PIRomanCod@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "assistant_bot"}]
+
+[tool.poetry.dependencies]
+python = "3.10.9"
+prompt-toolkit = "3.0.36"
+
+[tool.poetry.scripts]
+pa = "assistant_bot.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
